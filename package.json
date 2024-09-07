@@ -1,0 +1,14 @@
+{
+  "name": "reddit-feed-generator",
+  "version": "1.0.0",
+  "main": "index.mjs",
+  "scripts": {
+    "start": "node index.mjs"
+  },
+  "author": "Patrick Costa (@patrickrbc)",
+  "license": "MIT",
+  "description": "Simple Reddit atom feed generator",
+  "dependencies": {
+    "xml-js": "^1.6.11"
+  }
+}

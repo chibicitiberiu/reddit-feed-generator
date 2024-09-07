@@ -1,0 +1,7 @@
+[
+  {"title": "r/aws", "slug": "aws", "threshold": 200},
+  {"title": "r/linux", "slug": "linux", "threshold": 200},
+  {"title": "r/node", "slug": "node", "threshold": 100},
+  {"title": "r/typescript", "slug": "typescript", "threshold": 150},
+  {"title": "r/vim", "slug": "vim", "threshold": 90}
+]
