@@ -144,7 +144,7 @@ function getEntryContentHeader(post, link) {
         <a href="${baseUrl}${post.permalink}">${post.numComments} comments</a>
       </span>
       |
-      ${link ? `| <span><a href="${link}">Link shared</a></span> |` : ''}
+      ${link ? `<span><a href="${link}">Link shared</a></span> |` : ''}
       <span>submitted by <a href="${baseUrl}/u/${post.author}">${post.author}</a></span>
     </header>
   `
