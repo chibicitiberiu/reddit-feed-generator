@@ -26,7 +26,7 @@ const articleFetchOptions = {
 
 
 const articleCache = new LRUCache({
-  max: 100,
+  max: 1000,
   maxAge: 1000 * 60 * 5,
 })
 
