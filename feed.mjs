@@ -115,8 +115,18 @@ async function buildEntryContent(post) {
     // extract article
     else {
       try {
+        const controller = new AbortController()
+
+        // stop after 30 seconds
+        setTimeout(() => {
+          controller.abort()
+        }, 30000)
+
         //await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 50)));
-        const article = await extract(post.urlOverridenByDest, undefined, articleFetchOptions);
+        const article = await extract(post.urlOverridenByDest, undefined, {
+          ...articleFetchOptions,
+          signal: controller.signal
+        });
         if (article) {
           if (article.content)
             content += he.decode(article.content)
