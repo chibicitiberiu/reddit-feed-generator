@@ -31,6 +31,7 @@ export async function getFeed(sub) {
       Authorization: `Bearer `,
       'User-Agent': `script:${config.clientId}:v1 (by /u/youruser)`,
     },
+    timeout: 30 * 1000,
   });
 
   const feedJson = await response.json();

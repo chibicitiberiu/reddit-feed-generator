@@ -40,10 +40,16 @@ ${subSlugs}
     return
   }
 
-  const feed = await getFeed(sub)
+  try {
+    const feed = await getFeed(sub)
 
-  res.writeHead(200, {'Content-Type': 'application/xml;charset=utf-8'})
-  res.end(feed)
+    res.writeHead(200, {'Content-Type': 'application/xml;charset=utf-8'})
+    res.end(feed)
+  } catch (err) {
+    console.error(err)
+    res.writeHead(500, {'Content-Type': 'text/plain'})
+    res.end('Internal Server Error')
+  }
 }
 
 function downloadOPML(req, res) {
