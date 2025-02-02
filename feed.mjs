@@ -117,10 +117,10 @@ async function buildEntryContent(post) {
       try {
         const controller = new AbortController()
 
-        // stop after 30 seconds
+        // stop after 60 seconds
         setTimeout(() => {
           controller.abort()
-        }, 30000)
+        }, 60000)
 
         //await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 50)));
         const article = await extract(post.urlOverridenByDest, undefined, {
