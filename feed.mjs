@@ -2,6 +2,7 @@ import * as convert from 'xml-js'
 import config from './config.mjs'
 import { extract } from '@extractus/article-extractor'
 import he from 'he'
+import { LRUCache } from 'lru-cache'
 
 const baseUrl = 'https://www.reddit.com'
 
@@ -22,6 +23,21 @@ const articleFetchOptions = {
     'Priority': 'u=0, i',
   },
 }
+
+
+const articleCache = new LRUCache({
+  max: 100,
+  maxAge: 1000 * 60 * 5,
+})
+
+function getFromCache(key) {
+  return articleCache.get(key)
+}
+
+function setInCache(key, value) {
+  articleCache.set(key, value)
+}
+
 
 export async function getFeed(sub) {
   const url = `${baseUrl}/r/${sub.slug}/${config.sort}.json?t=${config.time}`;
@@ -149,10 +165,15 @@ async function buildEntryContent(post) {
         }, 30000)
 
         //await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 50)));
-        const article = await extract(post.urlOverridenByDest, undefined, {
-          ...articleFetchOptions,
-          signal: controller.signal
-        });
+        const articleCacheKey = post.urlOverridenByDest;
+        let article = getFromCache(articleCacheKey);
+        if (!article) {
+          article = await extract(post.urlOverridenByDest, undefined, {
+            ...articleFetchOptions,
+            signal: controller.signal
+          });
+          setInCache(articleCacheKey, article);
+        }
         if (article) {
           if (article.content)
             content += he.decode(article.content)
