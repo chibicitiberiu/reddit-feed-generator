@@ -53,6 +53,7 @@ export async function getFeed(sub) {
       url: post.data.url,
       urlOverridenByDest: post.data.url_overridden_by_dest,
       flair: post.data.link_flair_text,
+      thumbnail: post.data.thumbnail
     }));
 
   return await generateAtomFeed(sub, posts);
@@ -112,6 +113,30 @@ async function buildEntryContent(post) {
       content += `<img src="${post.urlOverridenByDest}" alt="${post.title}" />\n`
     }
 
+    // video or imgur
+    else if (post.urlOverridenByDest?.includes('v.redd.it') ||
+             post.urlOverridenByDest?.includes('youtube.com') ||
+             post.urlOverridenByDest?.includes('youtu.be') ||
+             post.urlOverridenByDest?.includes('gfycat.com')) {
+      content += `
+        <a href="${post.urlOverridenByDest}" target="_blank">
+          ${post.thumbnail ? `<img src="${post.thumbnail}" alt="${post.title}" />` : ''}
+          View Video
+        </a>
+      `;
+    }
+
+    // imgur album
+    else if (post.urlOverridenByDest?.includes('imgur.com/') ||
+             post.urlOverridenByDest?.includes('reddit.com/gallery')) {
+      content += `
+        <a href="${post.urlOverridenByDest}" target="_blank">
+          ${post.thumbnail ? `<img src="${post.thumbnail}" alt="${post.title}" />` : ''}
+          View Album
+        </a>
+      `;
+    }
+
     // extract article
     else {
       try {
@@ -120,7 +145,7 @@ async function buildEntryContent(post) {
         // stop after 60 seconds
         setTimeout(() => {
           controller.abort()
-        }, 60000)
+        }, 30000)
 
         //await new Promise(resolve => setTimeout(resolve, Math.floor(Math.random() * 50)));
         const article = await extract(post.urlOverridenByDest, undefined, {
