@@ -9,6 +9,8 @@
   "license": "MIT",
   "description": "Simple Reddit atom feed generator",
   "dependencies": {
+    "@extractus/article-extractor": "^8.0.16",
+    "he": "^1.2.0",
     "xml-js": "^1.6.11"
   }
 }

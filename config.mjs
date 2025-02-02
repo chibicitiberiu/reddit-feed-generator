@@ -15,7 +15,7 @@ export default {
   host: process.argv[3] || '127.0.0.1',
   port: process.argv[2] || 5555,
 
-  clientId: process.env.REDDIT_CLIENT_ID,
+  clientId: "u4pXcuA6Uv0izYpJnY_-63m-TQuLyw",
 
   sort: 'top',
   time: 'week',
